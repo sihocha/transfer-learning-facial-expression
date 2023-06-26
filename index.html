@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>얼굴 감정 인식</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-teal.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-data"></script>
+  <script src="facial-emotion.js" defer></script>
+  <script type="module" src="index.js"></script>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <div id="status">MobileNet을 로드합니다...</div>
+
+    <div class="container">
+        <div id="controller" class="panel">
+          <div class="button-div">
+            <button id="train" id="train-status">전이모델 훈련</button>
+          </div>
+          <div>
+            <div id="settings-group">
+                <div>
+                    <label for="learningRate">학습률</label>
+                    <select id="learningRate" name="learningRate">
+                    <option value="0.00001">0.00001</option>
+                    <option selected value="0.0001">0.0001</option>
+                    <option value="0.01">0.001</option>
+                    <option value="0.03">0.003</option>
+                </select>
+                </div>
+                <div>
+                    <label for="batchSizeFraction">배치 크기 비율</label>
+                    <select id="batchSizeFraction" name="batchSizeFraction">
+                    <option value="0.05">0.05</option>
+                    <option value="0.1">0.1</option>
+                    <option selected value="0.4">0.4</option>
+                    <option value="1">1</option>
+                </select>
+                </div>
+                <div>
+                    <label for="epochs">에포크</label>
+                    <select id="epochs" name="epochs">
+                    <option value="10">10</option>
+                    <option selected value="20">20</option>
+                    <option value="40">40</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="dense-units">은닉 유닛</label>
+                    <select id="dense-units" name="dense-units">
+                    <option value="10">10</option>
+                    <option selected value="100">100</option>
+                    <option value="200">200</option>
+                    </select>
+                </div>
+            </div>
+          </div>    
+        </div>
+        <div id="predicting" class="panel">
+          <div class="button-div">
+            <button id="predict" id="predict-status">감정 예측</button>   
+          </div>
+          <div>
+            <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+          </div>
+        </div>
+    </div>
+    <div id="sampling" class="panel">
+              <div class="thumb-box angry-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="angry-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="angry"><span>angry</span></button>
+                </div>
+                <p>
+                  <span id="angry-total">0</span>개 샘플
+                </p>
+              </div>
+              <div class="thumb-box happy-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="happy-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="happy"><span>happy</span></button>
+                </div>
+                <p>
+                  <span id="happy-total">0</span>개 샘플
+                </p>
+              </div>
+              <div class="thumb-box surprised-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="surprised-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="surprised"><span>surprised</span></button>
+                </div>
+                <p>
+                  <span id="surprised-total">0</span>개 샘플
+                </p>
+              </div>
+              <div class="thumb-box sad-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="sad-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="sad"><span>sad</span></button>
+                </div>
+                <p>
+                  <span id="sad-total">0</span>개 샘플
+                </p>
+              </div>
+              <div class="thumb-box inexpressive-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="inexpressive-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="inexpressive"><span>inexpressive</span></button>
+                </div>
+                <p>
+                  <span id="inexpressive-total">0</span>개 샘플
+                </p>
+              </div>
+              <div class="thumb-box disgusted-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="disgusted-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="disgusted"><span>disgusted</span></button>
+                </div>
+                <p>
+                  <span id="disgusted-total">0</span>개 샘플
+                </p>
+              </div>
+              <div class="thumb-box feared-panel">
+                <div class="thumb-box-outer">
+                  <div class="thumb-box-inner">
+                    <canvas class="thumb" width=224 height=224 id="feared-thumb"></canvas>
+                  </div>
+                  <button class="record-button" id="feared"><span>feared</span></button>
+                </div>
+                <p>
+                  <span id="feared-total">0</span>개 샘플
+                </p>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+  

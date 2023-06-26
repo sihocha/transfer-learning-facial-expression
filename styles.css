@@ -1,0 +1,181 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .panel:nth-child(1) {
+    margin-bottom: auto;
+  }
+  
+  #controller {
+    margin-right: 10px;
+  }
+  
+  #predicting {
+    margin-left: 10px;
+  }
+  
+  .panel {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .button-div {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; 
+  }
+
+  #settings-group {
+    margin-top: 10px;
+    background-color: #f2f2f2;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #settings-group label {
+    margin-bottom: 5px;
+  }
+  
+  #settings-group select {
+    padding: 5px;
+    outline: none;
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+  }
+  
+  #train-status {
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 15px 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #predicting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #predict-status {
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #sampling {
+    background-color: #f2f2f2;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .thumb-box {
+    display: inline-block;
+  }
+  .panel-row-middle .thumb-box {
+    margin-top: 18px;
+  }
+  .thumb-box-outer {
+    border: 1px solid #585858;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 9px;
+    position: relative;
+    transition: box-shadow 0.3s;
+  }
+  [data-active="angry"] .angry-panel .thumb-box-outer,
+  [data-active="happy"] .happy-panel .thumb-box-outer,
+  [data-active="surprised"] .surprised-panel .thumb-box-outer,
+  [data-active="sad"] .sad-panel .thumb-box-outer,
+  [data-active="inexpressive"] .inexpressive-panel .thumb-box-outer,
+  [data-active="disgusted"].disgusted-panel .thumb-box-outer,
+  [data-active="feared"] feared-panel .thumb-box-outer {
+    box-shadow: 0 0 4px 4px #00ffbf;
+  }
+  .thumb-box-inner {
+    border: 1px solid #585858;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 66px;
+  }
+  .thumb {
+    height: 66px;
+    transform: scaleX(-1);
+  }
+  .thumb-box-outer .record-button {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .thumb-box-outer .record-button span {
+    background: #fcfbfb;
+    border: 1px solid #585858;
+    border-radius: 3px;
+    bottom: 9px;
+    color: #0b0b0b;
+    display: block;
+    font-size: 9px;
+    left: 9px;
+    position: absolute;
+    right: 9px;
+    opacity: 0.5;
+  }
+  
+  #no-webcam {
+    display: none;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    padding: 30px;
+    line-height: 30px;
+  }
+  
+canvas {
+    width: 224px;
+    height: 224px;
+}
